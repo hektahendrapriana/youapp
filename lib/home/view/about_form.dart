@@ -400,17 +400,17 @@ class _AboutForm extends State<AboutForm> {
                 alignment: Alignment.centerLeft,
                 child: _WeightInput()),
             const Padding(padding: EdgeInsets.all(8)),
-            Container(
-                decoration: BoxDecoration(
-                    gradient: const LinearGradient(colors: [
-                      Color.fromRGBO(98, 205, 203, 1),
-                      Color.fromRGBO(69, 153, 219, 1)
-                    ]),
-                    borderRadius: BorderRadius.circular(8.0)),
-                margin:
-                    const EdgeInsets.only(left: 20.0, right: 20.0, top: 540.0),
-                alignment: Alignment.centerLeft,
-                child: _EditProfileButton()),
+            // Container(
+            //     decoration: BoxDecoration(
+            //         gradient: const LinearGradient(colors: [
+            //           Color.fromRGBO(98, 205, 203, 1),
+            //           Color.fromRGBO(69, 153, 219, 1)
+            //         ]),
+            //         borderRadius: BorderRadius.circular(8.0)),
+            //     margin:
+            //         const EdgeInsets.only(left: 20.0, right: 20.0, top: 540.0),
+            //     alignment: Alignment.centerLeft,
+            //     child: _EditProfileButton()),
           ],
         ),
       ),
