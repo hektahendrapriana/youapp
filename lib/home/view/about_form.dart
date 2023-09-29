@@ -400,6 +400,17 @@ class _AboutForm extends State<AboutForm> {
                 alignment: Alignment.centerLeft,
                 child: _WeightInput()),
             const Padding(padding: EdgeInsets.all(8)),
+            Container(
+                decoration: BoxDecoration(
+                    gradient: const LinearGradient(colors: [
+                      Color.fromRGBO(98, 205, 203, 1),
+                      Color.fromRGBO(69, 153, 219, 1)
+                    ]),
+                    borderRadius: BorderRadius.circular(8.0)),
+                margin:
+                    const EdgeInsets.only(left: 20.0, right: 20.0, top: 540.0),
+                alignment: Alignment.centerLeft,
+                child: _EditProfileButton()),
           ],
         ),
       ),
@@ -744,6 +755,41 @@ class _WeightInput extends StatelessWidget {
             ),
           ),
         );
+      },
+    );
+  }
+}
+
+class _EditProfileButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<AboutBloc, AboutState>(
+      builder: (context, state) {
+        return state.status.isInProgress
+            ? const CircularProgressIndicator()
+            : ElevatedButton(
+                style: ButtonStyle(
+                  // padding: MaterialStateProperty.all(const EdgeInsets.all(20)),
+                  textStyle: MaterialStateProperty.all(const TextStyle(
+                      fontFamily: 'Inter-Bold',
+                      fontSize: 16,
+                      color: Colors.white)),
+                  shadowColor: MaterialStateProperty.all(
+                      const Color.fromRGBO(98, 205, 203, 1)),
+                  elevation: MaterialStateProperty.all(15),
+                  minimumSize:
+                      MaterialStateProperty.all(const Size.fromHeight(48)),
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.transparent),
+                ),
+                key: const Key('loginForm_continue_raisedButton'),
+                onPressed: state.isValid
+                    ? () {
+                        context.read<AboutBloc>().add(const AboutSubmitted());
+                      }
+                    : null,
+                child: const Text('Save & Update'),
+              );
       },
     );
   }

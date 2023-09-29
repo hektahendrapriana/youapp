@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:youapp/authentication/authentication.dart';
 import 'package:youapp/login/login.dart';
 import 'package:youapp/home/home.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -18,11 +19,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePage extends State<HomePage> {
-  final bool _noPictProfile = true;
+  bool _noPictProfile = true;
   bool _expandAbout = false;
   bool _expandInterest = false;
 
-  void _onSubmit() async {
+  Future<void> _onSubmitted() async {
+    print('submit about');
+
     setState(() {
       _expandAbout = !_expandAbout;
     });
@@ -42,6 +45,11 @@ class _HomePage extends State<HomePage> {
     final birthday = context.select(
       (AuthenticationBloc bloc) => bloc.state.user.birthday,
     );
+    DateTime? dob = DateFormat('yyyy/MM/DD').parse(birthday!);
+    var today = DateTime.now();
+    final difference = today.difference(dob).inDays;
+    final age = (difference / 365).floor();
+
     final horoscope = context.select(
       (AuthenticationBloc bloc) => bloc.state.user.horoscope,
     );
@@ -118,7 +126,11 @@ class _HomePage extends State<HomePage> {
                               padding: const EdgeInsets.only(left: 10),
                               iconSize: 14,
                               icon: const Icon(Icons.edit, color: Colors.white),
-                              onPressed: () {},
+                              onPressed: () {
+                                setState(() {
+                                  _noPictProfile = !_noPictProfile;
+                                });
+                              },
                             ),
                           ),
                           Container(
@@ -167,6 +179,61 @@ class _HomePage extends State<HomePage> {
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                           ),
+                          Container(
+                            alignment: Alignment.topRight,
+                            padding: const EdgeInsets.only(right: 20, top: 0),
+                            child: IconButton(
+                              padding: const EdgeInsets.only(left: 10),
+                              iconSize: 14,
+                              icon: const Icon(Icons.edit, color: Colors.white),
+                              onPressed: () {
+                                setState(() {
+                                  _noPictProfile = !_noPictProfile;
+                                });
+                              },
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(
+                                left: 20, right: 20, top: 90),
+                            child: Text(
+                              '@$username, $age',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontFamily: 'Inter-Bold',
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.only(
+                                left: 20, right: 20, top: 115),
+                            child: const Text(
+                              'Male',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontFamily: 'Inter',
+                              ),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 140, left: 20),
+                            padding: const EdgeInsets.only(
+                                left: 20, right: 20, top: 10, bottom: 10),
+                            decoration: BoxDecoration(
+                              color: const Color.fromRGBO(28, 32, 28, 1),
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: Text(
+                              '$horoscope',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 14,
+                                fontFamily: 'Inter-SemiBold',
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                 const Padding(
@@ -196,7 +263,7 @@ class _HomePage extends State<HomePage> {
                                 // context
                                 //     .read<AboutBloc>()
                                 //     .add(const AboutSubmitted());
-                                _onSubmit();
+                                _onSubmitted();
                               },
                               child: const Text(
                                 'Save & Update',
